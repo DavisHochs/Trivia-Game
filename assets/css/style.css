@@ -3,3 +3,8 @@
     justify-content: center;
     background-color: grey;
   }
+
+.container {
+  background-color: black;
+  min-height:600px;
+}
