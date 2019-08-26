@@ -64,7 +64,7 @@ const  questions = {
 }
     
 
-
+$('#timer').text(countdown);
 //Setting the timer using interval rather than timeout for my own learning sake
  
 
@@ -96,13 +96,12 @@ function settingQuestionDOM() {
     for (let i = 0; i < 4; i++) {
 
         let rowDiv = $(`<div id=row${i}>`);
-        let populateChoices = $('<button class="btn btn-secondary"/>');
-        populateChoices.attr('class', 'button');
+        let populateChoices = $('<button class="btn btn-info btn-block button"/>');
         populateChoices.text(questions[questionCounter].answers[i]);
-            populateChoices.attr('data-answer', i)
-            $('#answerContainer').append(rowDiv);
-            $(`#row${i}`).append(populateChoices); 
-        }
+        populateChoices.attr('data-answer', i)
+        $('#answerContainer').append(rowDiv);
+        $(`#row${i}`).append(populateChoices); 
+    }
         $('.button').on('click', function() {
             if($(this).data('answer') == questions[questionCounter].correct) {
                 correct();
@@ -143,8 +142,14 @@ function mainQandA() {
 
 //Functions for right, wrong, and unanswered showing a gif for a few seconds
 
+let correctGifQuery = 'celebration';
+let wrongGifQuery = 'sad';
+let noans = 'clock';
 
-function correct() {
+ 
+
+
+function correct(){
     clearInterval(intervalId);
     $('#timer').empty();
     $('.button').remove();
@@ -156,6 +161,7 @@ function correct() {
     $('#nextquestion').on('click', function() {
         if (questionCounter < 11) {
             settingQuestionDOM();
+            $('postGif').remove();
             $(this).remove();
             $('#giphy').remove();
         }
@@ -171,12 +177,23 @@ function correct() {
         
             }
     })
+    let queryURL = "https://api.giphy.com/v1/gifs/random?api_key=VumF18uoV5t88Tij8FxSFFaGth98OuL9&tag=" + correctGifQuery 
     
+    $.ajax({
+        url: queryURL,
+        method: 'GET',
+    }).then(function(response){
+        let gifDisplay = $('<img id="postGif">');
+        let imageUrl = response.data.image_original_url;
+        gifDisplay.attr('src', imageUrl);
+        $('.container').append(gifDisplay);
+    });
 
 
 }
 function wrong() {
     clearInterval(intervalId);
+    $('#timer').remove();
     $('.button').remove();
     $('#question').remove();
     $('#questionContainer').append(`<h1 id="giphy">Wrong!!!</h1>`);
@@ -205,6 +222,7 @@ function wrong() {
 function outOfTime() {
     
     clearInterval(intervalId);
+    $('#timer').remove();
     $('.button').remove();
     $('#question').remove();
     $('#questionContainer').append(`<h1 id="giphy">Time's Up!!!</h1>`);

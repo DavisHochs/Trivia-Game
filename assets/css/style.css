@@ -1,10 +1,20 @@
-.box.flex {
-    display: flex;
-    justify-content: center;
-    background-color: grey;
-  }
-
 .container {
-  background-color: black;
-  min-height:600px;
+  margin-top: 20px;
+  background-color: grey;
+  min-height: 500px;
+}
+
+body {
+  background-image: "assets/images/mountains.jpg";
+}
+
+.btn {
+  min-width: 700px;
+  margin: 5px 0;
+  background-color: #d954f7;
+  color: #B3F754;
+
+}
+.btn:hover {
+  background-color: grey;
 }
